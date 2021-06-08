@@ -31,7 +31,7 @@ configurations {
 dependencies {
 	providedCompile 'javax:javaee-api:7.0'
 	serverLibs  'org.apache.derby:derby:10.11.1.1'
-	libertyRuntime 'com.ibm.websphere.appserver.runtime:wlp-javaee7:21.0.0.3'
+	libertyRuntime 'com.ibm.websphere.appserver.runtime:wlp-javaee7:21.0.0.5'
 }
 
 task copyServerLibs(type: Copy) {
