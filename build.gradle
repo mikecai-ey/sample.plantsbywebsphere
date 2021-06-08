@@ -16,7 +16,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:2.6.5'
+        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.1.2''
     }
 }
 
@@ -31,7 +31,7 @@ configurations {
 dependencies {
 	providedCompile 'javax:javaee-api:7.0'
 	serverLibs  'org.apache.derby:derby:10.11.1.1'
-	libertyRuntime 'com.ibm.websphere.appserver.runtime:wlp-javaee7:19.0.0.8'
+	libertyRuntime 'com.ibm.websphere.appserver.runtime:wlp-javaee7:21.0.0.3'
 }
 
 task copyServerLibs(type: Copy) {
