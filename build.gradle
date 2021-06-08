@@ -62,7 +62,7 @@ ext {
 liberty {
 	server {
 		name = rootProject.name + 'Server'
-		dropins = [war]
+//		dropins = [war]
 		looseApplication = false
 		configDirectory = file('src/main/liberty/config')
 	}
