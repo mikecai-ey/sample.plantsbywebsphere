@@ -1,0 +1,123 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app: pbw-liberty-derby-demo
+    app.kubernetes.io/component: pbw-liberty-derby-demo
+    app.kubernetes.io/instance: pbw-liberty-derby-demo
+    app.kubernetes.io/part-of: pbw-liberty-derby-demo
+  name: pbw-liberty-derby-demo
+  namespace: liberty-demo-pbw-custom-deploy
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - annotations:
+      openshift.io/imported-from: quay.io/mikecai_ey/sample.plantsbywebsphere:master
+    from:
+      kind: DockerImage
+      name: quay.io/mikecai_ey/sample.plantsbywebsphere:master
+    importPolicy: {}
+    name: master
+    referencePolicy:
+      type: Source
+      
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"pbw-liberty-derby-demo:master","namespace":"liberty-demo-pbw-custom-deploy"},"fieldPath":"spec.template.spec.containers[?(@.name==\"pbw-liberty-derby-demo\")].image","pause":"false"}]'
+  labels:
+    app: pbw-liberty-derby-demo
+    app.kubernetes.io/component: pbw-liberty-derby-demo
+    app.kubernetes.io/instance: pbw-liberty-derby-demo
+    app.kubernetes.io/part-of: pbw-liberty-derby-demo
+    app.openshift.io/runtime-namespace: liberty-demo-pbw-custom-deploy
+  name: pbw-liberty-derby-demo
+  namespace: liberty-demo-pbw-custom-deploy
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: pbw-liberty-derby-demo
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: pbw-liberty-derby-demo
+        deploymentconfig: pbw-liberty-derby-demo
+    spec:
+      containers:
+      - image: quay.io/mikecai_ey/sample.plantsbywebsphere:master
+        imagePullPolicy: Always
+        name: pbw-liberty-derby-demo
+        ports:
+        - containerPort: 9080
+          protocol: TCP
+        - containerPort: 9443
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pbw-liberty-derby-demo
+    app.kubernetes.io/component: pbw-liberty-derby-demo
+    app.kubernetes.io/instance: pbw-liberty-derby-demo
+    app.kubernetes.io/part-of: pbw-liberty-derby-demo
+    app.openshift.io/runtime-version: master
+  name: pbw-liberty-derby-demo
+  namespace: liberty-demo-pbw-custom-deploy
+spec:
+  ports:
+  - name: 9080-tcp
+    port: 9080
+    protocol: TCP
+    targetPort: 9080
+  - name: 9443-tcp
+    port: 9443
+    protocol: TCP
+    targetPort: 9443
+  selector:
+    app: pbw-liberty-derby-demo
+    deploymentconfig: pbw-liberty-derby-demo
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: pbw-liberty-derby-demo
+    app.kubernetes.io/component: pbw-liberty-derby-demo
+    app.kubernetes.io/instance: pbw-liberty-derby-demo
+    app.kubernetes.io/part-of: pbw-liberty-derby-demo
+    app.openshift.io/runtime-version: master
+  name: pbw-liberty-derby-demo
+  namespace: liberty-demo-pbw-custom-deploy
+spec:
+  port:
+    targetPort: 9080-tcp
+  to:
+    kind: Service
+    name: pbw-liberty-derby-demo
+    weight: 100
+  tls:
+    termination: edge
+  wildcardPolicy: None

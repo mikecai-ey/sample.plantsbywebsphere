@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # annotations:
+  #   openshift.io/generated-by: OpenShiftWebConsole
+  # creationTimestamp: "2021-06-09T18:05:45Z"
+  labels:
+    app: pbw-liberty-derby-demo
+    app.kubernetes.io/component: pbw-liberty-derby-demo
+    app.kubernetes.io/instance: pbw-liberty-derby-demo
+    app.kubernetes.io/part-of: pbw-liberty-derby-demo
+    app.openshift.io/runtime-version: master
+  # managedFields:
+  # - apiVersion: v1
+  #   fieldsType: FieldsV1
+  #   fieldsV1:
+  #     f:metadata:
+  #       f:annotations:
+  #         .: {}
+  #         f:openshift.io/generated-by: {}
+  #       f:labels:
+  #         .: {}
+  #         f:app: {}
+  #         f:app.kubernetes.io/component: {}
+  #         f:app.kubernetes.io/instance: {}
+  #         f:app.kubernetes.io/part-of: {}
+  #         f:app.openshift.io/runtime-version: {}
+  #     f:spec:
+  #       f:ports:
+  #         .: {}
+  #         k:{"port":9080,"protocol":"TCP"}:
+  #           .: {}
+  #           f:name: {}
+  #           f:port: {}
+  #           f:protocol: {}
+  #           f:targetPort: {}
+  #         k:{"port":9443,"protocol":"TCP"}:
+  #           .: {}
+  #           f:name: {}
+  #           f:port: {}
+  #           f:protocol: {}
+  #           f:targetPort: {}
+  #       f:selector:
+  #         .: {}
+  #         f:app: {}
+  #         f:deploymentconfig: {}
+  #       f:sessionAffinity: {}
+  #       f:type: {}
+  #   manager: Mozilla
+  #   operation: Update
+  #   time: "2021-06-09T18:05:45Z"
+  name: pbw-liberty-derby-demo
+  namespace: liberty-demo-pbw-custom-deploy
+  # resourceVersion: "3158203"
+  # selfLink: /api/v1/namespaces/liberty-demo-pbw-custom-deploy/services/pbw-liberty-derby-demo
+  # uid: 3e6c0dae-5eb0-48d6-9a85-9e90f81c6306
+spec:
+  # clusterIP: 172.30.174.197
+  ports:
+  - name: 9080-tcp
+    port: 9080
+    protocol: TCP
+    targetPort: 9080
+  - name: 9443-tcp
+    port: 9443
+    protocol: TCP
+    targetPort: 9443
+  selector:
+    app: pbw-liberty-derby-demo
+    deploymentconfig: pbw-liberty-derby-demo
+  sessionAffinity: None
+  type: ClusterIP
+

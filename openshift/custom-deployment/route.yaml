@@ -1,0 +1,70 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  # annotations:
+  #   openshift.io/host.generated: "true"
+  # creationTimestamp: "2021-06-09T18:05:45Z"
+  labels:
+    app: pbw-liberty-derby-demo
+    app.kubernetes.io/component: pbw-liberty-derby-demo
+    app.kubernetes.io/instance: pbw-liberty-derby-demo
+    app.kubernetes.io/part-of: pbw-liberty-derby-demo
+    app.openshift.io/runtime-version: master
+  # managedFields:
+  # - apiVersion: route.openshift.io/v1
+  #   fieldsType: FieldsV1
+  #   fieldsV1:
+  #     f:metadata:
+  #       f:labels:
+  #         .: {}
+  #         f:app: {}
+  #         f:app.kubernetes.io/component: {}
+  #         f:app.kubernetes.io/instance: {}
+  #         f:app.kubernetes.io/part-of: {}
+  #         f:app.openshift.io/runtime-version: {}
+  #     f:spec:
+  #       f:port:
+  #         .: {}
+  #         f:targetPort: {}
+  #       f:to:
+  #         f:kind: {}
+  #         f:name: {}
+  #         f:weight: {}
+  #       f:wildcardPolicy: {}
+  #   manager: Mozilla
+  #   operation: Update
+  #   time: "2021-06-09T18:05:45Z"
+  # - apiVersion: route.openshift.io/v1
+  #   fieldsType: FieldsV1
+  #   fieldsV1:
+  #     f:status:
+  #       f:ingress: {}
+  #   manager: openshift-router
+  #   operation: Update
+  #   time: "2021-06-09T18:05:45Z"
+  name: pbw-liberty-derby-demo
+  namespace: liberty-demo-pbw-custom-deploy
+  # resourceVersion: "3158221"
+  # selfLink: /apis/route.openshift.io/v1/namespaces/liberty-demo-pbw-custom-deploy/routes/pbw-liberty-derby-demo
+  # uid: 048a31fd-e4de-404e-acdb-ca75edd9b485
+spec:
+  # host: pbw-liberty-derby-demo-liberty-demo-pbw-custom-deploy.apps.for-mike.cloudztech.us
+  port:
+    targetPort: 9443-tcp
+  to:
+    kind: Service
+    name: pbw-liberty-derby-demo
+    weight: 100
+  tls:
+    termination: edge
+  wildcardPolicy: None
+# status:
+#   ingress:
+#   - conditions:
+#     - lastTransitionTime: "2021-06-09T18:05:45Z"
+#       status: "True"
+#       type: Admitted
+#     host: pbw-liberty-derby-demo-liberty-demo-pbw-custom-deploy.apps.for-mike.cloudztech.us
+#     routerCanonicalHostname: apps.for-mike.cloudztech.us
+#     routerName: default
+#     wildcardPolicy: None

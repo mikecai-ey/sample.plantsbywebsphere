@@ -47,3 +47,7 @@ Thumbs.db
 bin/
 .classpath
 .project
+
+# VS Code files #
+#################
+/.vscode/

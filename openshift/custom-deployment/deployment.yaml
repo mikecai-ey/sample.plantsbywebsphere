@@ -1,0 +1,156 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+#    alpha.image.policy.openshift.io/resolve-names: '*'
+#    deployment.kubernetes.io/revision: "1"
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"pbw-liberty-derby-demo:master","namespace":"liberty-demo-pbw-custom-deploy"},"fieldPath":"spec.template.spec.containers[?(@.name==\"pbw-liberty-derby-demo\")].image","pause":"false"}]'
+#    openshift.io/generated-by: OpenShiftWebConsole
+  labels:
+    app: pbw-liberty-derby-demo
+    app.kubernetes.io/component: pbw-liberty-derby-demo
+    app.kubernetes.io/instance: pbw-liberty-derby-demo
+    app.kubernetes.io/part-of: pbw-liberty-derby-demo
+    app.openshift.io/runtime-namespace: liberty-demo-pbw-custom-deploy
+  # managedFields:
+  # - apiVersion: apps/v1
+  #   fieldsType: FieldsV1
+  #   fieldsV1:
+  #     f:metadata:
+  #       f:annotations:
+  #         .: {}
+  #         f:alpha.image.policy.openshift.io/resolve-names: {}
+  #         f:image.openshift.io/triggers: {}
+  #         f:openshift.io/generated-by: {}
+  #       f:labels:
+  #         .: {}
+  #         f:app: {}
+  #         f:app.kubernetes.io/component: {}
+  #         f:app.kubernetes.io/instance: {}
+  #         f:app.kubernetes.io/part-of: {}
+  #         f:app.openshift.io/runtime-namespace: {}
+  #     f:spec:
+  #       f:progressDeadlineSeconds: {}
+  #       f:replicas: {}
+  #       f:revisionHistoryLimit: {}
+  #       f:selector:
+  #         f:matchLabels:
+  #           .: {}
+  #           f:app: {}
+  #       f:strategy:
+  #         f:rollingUpdate:
+  #           .: {}
+  #           f:maxSurge: {}
+  #           f:maxUnavailable: {}
+  #         f:type: {}
+  #       f:template:
+  #         f:metadata:
+  #           f:annotations:
+  #             .: {}
+  #             f:openshift.io/generated-by: {}
+  #           f:labels:
+  #             .: {}
+  #             f:app: {}
+  #             f:deploymentconfig: {}
+  #         f:spec:
+  #           f:containers:
+  #             k:{"name":"pbw-liberty-derby-demo"}:
+  #               .: {}
+  #               f:image: {}
+  #               f:imagePullPolicy: {}
+  #               f:name: {}
+  #               f:ports:
+  #                 .: {}
+  #                 k:{"containerPort":9080,"protocol":"TCP"}:
+  #                   .: {}
+  #                   f:containerPort: {}
+  #                   f:protocol: {}
+  #                 k:{"containerPort":9443,"protocol":"TCP"}:
+  #                   .: {}
+  #                   f:containerPort: {}
+  #                   f:protocol: {}
+  #               f:resources: {}
+  #               f:terminationMessagePath: {}
+  #               f:terminationMessagePolicy: {}
+  #           f:dnsPolicy: {}
+  #           f:restartPolicy: {}
+  #           f:schedulerName: {}
+  #           f:securityContext: {}
+  #           f:terminationGracePeriodSeconds: {}
+  #   manager: Mozilla
+  #   operation: Update
+  #   time: "2021-06-09T18:06:44Z"
+  # - apiVersion: apps/v1
+  #   fieldsType: FieldsV1
+  #   fieldsV1:
+  #     f:metadata:
+  #       f:annotations:
+  #         f:deployment.kubernetes.io/revision: {}
+  #     f:status:
+  #       f:availableReplicas: {}
+  #       f:conditions:
+  #         .: {}
+  #         k:{"type":"Available"}:
+  #           .: {}
+  #           f:lastTransitionTime: {}
+  #           f:lastUpdateTime: {}
+  #           f:message: {}
+  #           f:reason: {}
+  #           f:status: {}
+  #           f:type: {}
+  #         k:{"type":"Progressing"}:
+  #           .: {}
+  #           f:lastTransitionTime: {}
+  #           f:lastUpdateTime: {}
+  #           f:message: {}
+  #           f:reason: {}
+  #           f:status: {}
+  #           f:type: {}
+  #       f:observedGeneration: {}
+  #       f:readyReplicas: {}
+  #       f:replicas: {}
+  #       f:updatedReplicas: {}
+  #   manager: kube-controller-manager
+  #   operation: Update
+  #   time: "2021-06-09T18:06:44Z"
+  name: pbw-liberty-derby-demo
+  namespace: liberty-demo-pbw-custom-deploy
+  # resourceVersion: "3158635"
+  # selfLink: /apis/apps/v1/namespaces/liberty-demo-pbw-custom-deploy/deployments/pbw-liberty-derby-demo
+  # uid: 90ef9a25-2808-490e-b6c8-443061ae4326
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: pbw-liberty-derby-demo
+  strategy:
+    # rollingUpdate:
+    #   maxSurge: 25%
+    #   maxUnavailable: 25%
+    type: Recreate
+  template:
+    metadata:
+      # annotations:
+      #   openshift.io/generated-by: OpenShiftWebConsole
+      labels:
+        app: pbw-liberty-derby-demo
+        deploymentconfig: pbw-liberty-derby-demo
+    spec:
+      containers:
+      - image: quay.io/mikecai_ey/sample.plantsbywebsphere:master
+        imagePullPolicy: Always
+        name: pbw-liberty-derby-demo
+        ports:
+        - containerPort: 9080
+          protocol: TCP
+        - containerPort: 9443
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
