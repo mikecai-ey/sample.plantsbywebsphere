@@ -19,6 +19,11 @@ parameters:
   #   displayName: Deployed Application Name
   #   required: true
   #   value: pbw-liberty-mariadb
+  - name: PROJECT_NAME
+    description: The name of the deployed project.
+    displayName: Deployed Project Name
+    required: true
+    value: liberty-demo-pbw-jenkins-pipeline
   - name: GIT_SOURCE_URL
     description: The source URL for the application
     displayName: Source URL
@@ -82,6 +87,8 @@ objects:
               value: "${GIT_SOURCE_REF}"
             - name: "APP_NAME"
               value: "${APP_NAME}"
+            - name: "PROJECT_NAME"
+              value: "${PROJECT_NAME}"
         type: JenkinsPipeline
       triggers:
         - github:
@@ -90,6 +97,45 @@ objects:
         - generic:
             secret: "${GENERIC_WEBHOOK_SECRET}"
           type: Generic
+  #################### DeploymentConfig ####################
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      labels:
+        app: ${APP_NAME}
+      name: ${APP_NAME}
+    spec:
+      replicas: 1
+      selector:
+        app: ${APP_NAME}
+        deploymentconfig: ${APP_NAME}
+      template:
+        metadata:
+          labels:
+            app: ${APP_NAME}
+            deploymentconfig: ${APP_NAME}
+        spec:
+          containers:
+          - name: ${APP_NAME}
+            image: ${APP_NAME}:latest
+            imagePullPolicy: Always
+            ports:
+            - containerPort: 9080
+              protocol: TCP
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+      triggers: []
+      # - type: ConfigChange 
+      # - imageChangeParams:
+      #     automatic: true
+      #     containerNames:
+      #     - pbw-liberty-derby-demo
+      #     from:
+      #       kind: ImageStreamTag
+      #       name: sample.plantsbywebsphere:latest
+      #   type: ImageChange
+      strategy:
+        type: Rolling
   #################### Service ####################
   - apiVersion: v1
     kind: Service
