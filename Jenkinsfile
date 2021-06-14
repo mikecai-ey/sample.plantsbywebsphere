@@ -17,7 +17,7 @@ pipeline {
     stage("Build Image") {
       steps {
         script {
-          openshift.withCluster('mycluster') {
+          openshift.withCluster('cluster') {
             openshift.withProject("${env.DEPLOYED_PROJECT}") {
               def deployedAppName = "${env.APP_NAME}"
             //  echo "Disabling ImageChange trigger on current deployment ..."
@@ -30,11 +30,11 @@ pipeline {
         }
       }
     }
-    
+
     stage('Deploy') {
       steps {
         script {
-          openshift.withCluster('mycluster') {
+          openshift.withCluster('cluster') {
             openshift.withProject("${env.DEPLOYED_PROJECT}") {
               def deployedAppName =  "${env.DEPLOYED_APP_NAME}"
               echo "Perform a rolling update of newly built image on current deployment ..."
