@@ -12,7 +12,7 @@ spec:
       type: "GitHub"
       github:
         secretReference:
-          name: "github-webhook-secret"
+          name: "github-webhook-secret-key"
     # - type: "Generic"
     #   generic:
     #     secret: "secret101"

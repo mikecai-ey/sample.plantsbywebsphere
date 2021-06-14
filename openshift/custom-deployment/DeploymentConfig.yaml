@@ -34,6 +34,6 @@ spec:
       from:
         kind: ImageStreamTag
         name: sample.plantsbywebsphere:latest
-    type: ImageChange  
+    type: ImageChange
   strategy:
     type: Rolling
