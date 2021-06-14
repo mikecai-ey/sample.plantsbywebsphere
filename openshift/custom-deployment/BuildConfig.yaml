@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: pbw-liberty-derby-demo
+  name: pbw-liberty-derby-demo
+  namespace: liberty-demo-pbw-custom-deploy
+spec:
+  runPolicy: Serial
+  triggers: 
+    -
+      type: "GitHub"
+      github:
+        secretReference:
+          name: "github-webhook-secret"
+    # - type: "Generic"
+    #   generic:
+    #     secret: "secret101"
+    # -
+    #   type: "ImageChange"
+  source: 
+    git:
+      uri: "https://github.com/mikecai-ey/sample.plantsbywebsphere.git"
+      ref: "master"
+    type: Git
+  strategy: 
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+    type: Docker
+  output: 
+    to:
+      kind: "ImageStreamTag"
+      name: "sample.plantsbywebsphere:latest"
+
+# ---
+# kind: Secret
+# apiVersion: v1
+# metadata:
+#   name: github-webhook-secret-key
+#   namespace: liberty-demo-pbw-custom-deploy
+# data:
+#     WebHookSecretKey: c2VjcmV0dmFsdWUx
+

@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: pbw-liberty-derby-demo
+  name: pbw-liberty-derby-demo
+  namespace: liberty-demo-pbw-custom-deploy
+spec:
+  replicas: 1
+  selector:
+    app: pbw-liberty-derby-demo
+    deploymentconfig: pbw-liberty-derby-demo
+  template:
+    metadata:
+      labels:
+        app: pbw-liberty-derby-demo
+        deploymentconfig: pbw-liberty-derby-demo
+    spec:
+      containers:
+      - name: pbw-liberty-derby-demo
+        image: sample.plantsbywebsphere:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9080
+          protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+  triggers:
+  - type: ConfigChange 
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - pbw-liberty-derby-demo
+      from:
+        kind: ImageStreamTag
+        name: sample.plantsbywebsphere:latest
+    type: ImageChange  
+  strategy:
+    type: Rolling

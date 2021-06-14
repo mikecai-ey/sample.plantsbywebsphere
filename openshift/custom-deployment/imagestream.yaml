@@ -1,66 +1,14 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
-  # annotations:
-  #   openshift.io/image.dockerRepositoryCheck: "2021-06-09T18:05:44Z"
-  # creationTimestamp: "2021-06-09T18:05:44Z"
-  # generation: 2
   labels:
     app: pbw-liberty-derby-demo
-    app.kubernetes.io/component: pbw-liberty-derby-demo
-    app.kubernetes.io/instance: pbw-liberty-derby-demo
-    app.kubernetes.io/part-of: pbw-liberty-derby-demo
-  # managedFields:
-  # - apiVersion: image.openshift.io/v1
-  #   fieldsType: FieldsV1
-  #   fieldsV1:
-  #     f:metadata:
-  #       f:labels:
-  #         .: {}
-  #         f:app: {}
-  #         f:app.kubernetes.io/component: {}
-  #         f:app.kubernetes.io/instance: {}
-  #         f:app.kubernetes.io/part-of: {}
-  #     f:spec:
-  #       f:tags:
-  #         .: {}
-  #         k:{"name":"master"}:
-  #           .: {}
-  #           f:annotations:
-  #             .: {}
-  #             f:openshift.io/generated-by: {}
-  #             f:openshift.io/imported-from: {}
-  #           f:from:
-  #             .: {}
-  #             f:kind: {}
-  #             f:name: {}
-  #           f:generation: {}
-  #           f:importPolicy: {}
-  #           f:name: {}
-  #           f:referencePolicy:
-  #             .: {}
-  #             f:type: {}
-  #   manager: Mozilla
-  #   operation: Update
-  #   time: "2021-06-09T18:05:44Z"
-  name: pbw-liberty-derby-demo
+  name: sample.plantsbywebsphere
   namespace: liberty-demo-pbw-custom-deploy
-  # resourceVersion: "3158200"
-  # selfLink: /apis/image.openshift.io/v1/namespaces/liberty-demo-pbw-custom-deploy/imagestreams/pbw-liberty-derby-demo
-  # uid: 9b583db2-a1ac-4b18-b692-125a742c488a
 spec:
   lookupPolicy:
-    local: false
+    local: true
   tags:
-  - annotations:
-      # openshift.io/generated-by: OpenShiftWebConsole
-      openshift.io/imported-from: quay.io/mikecai_ey/sample.plantsbywebsphere:master
-    from:
-      kind: DockerImage
-      name: quay.io/mikecai_ey/sample.plantsbywebsphere:master
-    # generation: 2
-    importPolicy: {}
-    name: master
+  - name: latest
     referencePolicy:
-      type: Source
-      
+      type: Local
