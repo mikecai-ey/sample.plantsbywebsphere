@@ -1,16 +1,12 @@
 timeout(time: 20, unit: 'MINUTES') {
   node {   
 
-    stage("Checkout") {
-        checkout scm
-    }
-
     stage("Build Image") {
       openshift.withCluster() {
         openshift.withProject("liberty-demo-pbw-jenkins-pipeline") {
           def deployedAppName = "pbw-liberty-derby-demo"
           echo "Starting build using BuildConfig ${deployedAppName} ..."
-          openshift.selector("bc", deployedAppName).startBuild("--from-dir=.", "--wait=true")
+          openshift.selector("bc", deployedAppName).startBuild("--wait=true")
         }
       }
     }
