@@ -6,8 +6,8 @@ node {
 
   stage("Build Image") {
     openshift.withCluster() {
-      openshift.withProject("${env.PROJECT_NAME}") {
-        def deployedAppName = "${env.APP_NAME}"
+      openshift.withProject("liberty-demo-pbw-jenkins-pipeline") {
+        def deployedAppName = "pbw-liberty-derby-demo"
         echo "Starting build using BuildConfig ${deployedAppName} ..."
         openshift.selector("bc", deployedAppName).startBuild("--from-dir=.", "--wait=true")
       }
@@ -16,8 +16,8 @@ node {
 
   stage('Deploy') {
     openshift.withCluster() {
-      openshift.withProject("${env.PROJECT_NAME}") {
-        def deployedAppName =  "${env.APP_NAME}"
+      openshift.withProject("liberty-demo-pbw-jenkins-pipeline") {
+        def deployedAppName = "pbw-liberty-derby-demo"
         echo "Perform a rolling update of newly built image on current deployment ..."
         def rm = openshift.selector("dc",deployedAppName).rollout().latest()
         echo "Wait for Deployment to start rolling out and then wait for it to complete ..."
